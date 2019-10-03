@@ -1,0 +1,39 @@
+html{
+    height:400vh;
+}
+body{
+    overflow: hidden;
+}
+
+section{
+    width:100vw;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    transition: all .5s;
+}
+#slide0{
+    background-color:orange;
+}
+#slide1{
+    background-color:orangered;
+}
+#slide2{
+    background-color:lightslategrey;
+}
+#slide3{
+    background-color:olive;
+}
+
+#slide1, #slide2, #slide3{
+    transform: translateX(100vw);
+}
+
+#showScroll{
+    position:fixed;
+    left:40px;
+    top:40px;
+    color:white;
+    z-index:3;
+}

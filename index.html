@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/0.5.0/modern-normalize.min.css"
+        integrity="sha256-N6+kUxTWxpqVK+BrPWt3t4jeOWPtp37RZEbm5n9X+8U=" crossorigin="anonymous" />
+    <link rel='stylesheet' href='index.css'>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <section id="slide0"></section>
+    <section id="slide1"></section>
+    <section id="slide2"></section>
+    <section id="slide3"></section>
+
+    <div id="showScroll">0</div>
+
+    <script>
+        let slides = ["slide0", "slide1", "slide2", "slide3"];
+        let currentSlide = 0;
+        let before
+
+        window.addEventListener('wheel', function (e) {
+
+            //wait 2 secs between doing something because the wheel events happpen multiple times
+            let date = new Date()
+            now = date.getTime()
+            let threshold = Math.abs(e.deltaX + e.deltaY)
+
+            //set higher threshold limit for less reaction
+            if (now - before < 1000 && threshold< 50) {
+                return //stop function entirely
+            } else {
+                before = now
+            }
+
+            //normalize horisontal/vertical scroll (otherwise the value can be somewhere between zero and 50+) 
+            let x = e.deltaX > 0 ? 1 : -1
+            let y = e.deltaY > 0 ? 1 : -1
+
+            //scroll directions
+            if( (x < 0 && y > 0) || (x > 0 && y < 0) ) {
+                currentSlide += 1 
+            }else{
+                currentSlide -= 1
+            }
+
+            //keep array boundaries
+            if (currentSlide < 0) currentSlide = 0
+            if (currentSlide > slides.length - 1) currentSlide = slides.length - 1
+
+            document.querySelector('#showScroll').innerHTML = "current slide: " + currentSlide
+
+            shiftSlide(currentSlide)
+
+        });
+
+        function shiftSlide(current){
+            slides.map((name, key) => {
+                e = document.querySelector('#' + name)
+                if(current == key){
+                    e.style.transform = "translateX(0)"
+                }else if (key < current) {
+                    e.style.transform = "translateX(-100vw)"
+                }else if(key > current){
+                    e.style.transform = "translateX(100vw)"
+                }
+                    
+            })
+        }
+    </script>
+</body>
+
+</html>
